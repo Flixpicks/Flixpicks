@@ -8,16 +8,22 @@ extension Config {
 
         try setupProviders()
         try setupPreparations()
+        try setupCommands()
     }
-    
+
     /// Configure providers
     private func setupProviders() throws {
         try addProvider(FluentProvider.Provider.self)
     }
-    
+
     /// Add all models that should have their
     /// schemas prepared before the app boots
     private func setupPreparations() throws {
         preparations.append(Post.self)
+    }
+
+    // Add all commands
+    private func setupCommands() throws {
+      try addConfigurable(command: StartCommand.init, name: "start")
     }
 }

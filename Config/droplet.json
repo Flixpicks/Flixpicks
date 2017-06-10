@@ -37,7 +37,9 @@
 
     "//": "Choose which commands this application can run",
     "//": "prepare: Supplied by the Fluent provider. Prepares the database (configure in fluent.json)",
+    "//": "start: starts the server with react development server",
     "commands": [
-        "prepare"
+      "prepare",
+      "start"
     ]
 }

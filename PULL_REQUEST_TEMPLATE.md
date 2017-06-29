@@ -1,4 +1,5 @@
-This pull request address issue...[link to the issue this PR addresses using #]
+## This pull request address issue...
+[link to the issue this PR addresses using #]
 
 ## What I changed
 [Brief description of what was changed]
@@ -7,4 +8,5 @@ This pull request address issue...[link to the issue this PR addresses using #]
 [Give a task list of things to test and any additional instructions]
 
 ## A Gif to describe how this pull request makes me feel
-[A link to a gif about how the pull request makes you feel] (optional)
+(optional)
+![gif text](A link to a gif about how the pull request makes you feel)

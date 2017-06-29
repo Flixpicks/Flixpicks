@@ -11,6 +11,7 @@ before_install:
             brew tap vapor/tap;
             brew update;
             brew install vapor;
+            brew install cmysql;
         else
             eval "$(curl -sL https://apt.vapor.sh)";
             sudo apt-get install vapor;

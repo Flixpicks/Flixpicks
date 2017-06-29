@@ -24,6 +24,7 @@ extension Config {
 
     // Add all commands
     private func setupCommands() throws {
-        addConfigurable(command: StartCommand.init, name: "start")
+      try addConfigurable(command: StartCommand.init, name: "start")
+      try addConfigurable(command: ProdCommand.init, name: "prod")
     }
 }

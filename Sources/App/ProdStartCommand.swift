@@ -11,7 +11,7 @@ struct ProdCommand: Command {
     }
 
     public func run(arguments: [String]) throws {
-        try console.foregroundExecute(program:"concurrently", arguments:["\"cd client && npm run build\"", "\"vapor run serve --env=production --workdir=\"/client/build\"\""])
+        try console.foregroundExecute(program:"concurrently", arguments:["\"cd client && npm run build\"", "\"vapor run serve --env=production\""])
     }
 }
 

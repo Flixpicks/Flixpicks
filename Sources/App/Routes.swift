@@ -2,7 +2,7 @@ import Vapor
 
 extension Droplet {
     func setupRoutes() throws {
-        get("test") { req in
+        get("/") { req in
           return try self.view.make("index.html")
         }
 

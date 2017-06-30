@@ -20,8 +20,8 @@ before_install:
         fi
 
 script:
-    - swift build
-    - swift build -c release
+    - swift build -Xswiftc -DNOJSON
+    - swift build -c release -Xswiftc -DNOJSON
     - swift test
 
 after_success:

@@ -6,6 +6,8 @@ Config/secrets
 
 ### Vapor Patch ###
 Packages
+Public/build
+Resources/Views/index.html
 .build
 xcuserdata
 *.xcodeproj

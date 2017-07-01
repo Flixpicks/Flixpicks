@@ -2,6 +2,18 @@
   "autoPin": true,
   "pins": [
     {
+      "package": "Auth",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/auth.git",
+      "version": "1.0.0"
+    },
+    {
+      "package": "AuthProvider",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/auth-provider.git",
+      "version": "1.0.2"
+    },
+    {
       "package": "BCrypt",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/bcrypt.git",
@@ -107,7 +119,7 @@
       "package": "Random",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/random.git",
-      "version": "1.0.0"
+      "version": "1.1.1"
     },
     {
       "package": "Routing",
@@ -137,7 +149,7 @@
       "package": "Vapor",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/vapor.git",
-      "version": "2.1.0"
+      "version": "2.1.1"
     }
   ],
   "version": 1

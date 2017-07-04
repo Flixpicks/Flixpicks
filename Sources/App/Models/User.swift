@@ -16,13 +16,13 @@ final class User: Model {
 
     var name: String
     var email: String
-    var password: String
+    var password: String?
     
     
     init(name: String, email: String, password: String? = nil) {
         self.name = name
         self.email = email
-        self.password = password!
+        self.password = password
     }
     
     init(row: Row) throws {
@@ -103,5 +103,10 @@ extension User: TokenAuthenticatable {
 extension Request {
     func user() throws -> User {
         return try auth.assertAuthenticated()
+    }
+    
+    func jsonUser() throws -> User {
+        guard let json = json else { throw Abort.badRequest }
+        return try User(json: json)
     }
 }

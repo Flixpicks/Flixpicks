@@ -97,7 +97,7 @@ extension Movie: ResponseRepresentable { }
 // MARK: Request
 extension Request {
     func jsonMovie() throws -> Movie {
-        guard let json = json else { throw Abort.badRequest }
-        return try Movie(json: json)
+        try print(json())
+        return try Movie(json: json())
     }
 }

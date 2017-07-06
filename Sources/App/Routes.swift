@@ -25,5 +25,14 @@ extension Droplet {
         get("description") { req in return req.description }
 
         try resource("posts", PostController.self)
+
+        post("addMovie") { req in
+            guard let json = req.json else {
+                throw Abort(.badRequest)
+            }
+            let movie = try Movie(json: json)
+            try movie.save()
+            return movie
+        }
     }
 }

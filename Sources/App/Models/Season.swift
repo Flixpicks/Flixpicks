@@ -10,7 +10,7 @@ import Vapor
 import FluentProvider
 import HTTP
 
-final class Movie: Model {
+final class Season: Model {
     let storage = Storage()
 
     /// The content of the Movie
@@ -54,9 +54,9 @@ final class Movie: Model {
 }
 
 // MARK: Preparation
-extension Movie: Preparation {
+extension Season: Preparation {
     /// Prepares a table/collection in the database
-    /// for storing Posts
+    /// for storing Seasons
     static func prepare(_ database: Database) throws {
         try database.create(self) { builder in
             builder.id()
@@ -75,7 +75,7 @@ extension Movie: Preparation {
 }
 
 // MARK: JSONConvertible
-extension Movie: JSONConvertible {
+extension Season: JSONConvertible {
     convenience init(json: JSON) throws {
         try self.init(
             showID: json.get("showID"),
@@ -99,4 +99,4 @@ extension Movie: JSONConvertible {
 }
 
 // MARK: HTTP
-extension Movie: ResponseRepresentable { }
+extension Season: ResponseRepresentable { }

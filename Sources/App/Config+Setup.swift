@@ -20,6 +20,10 @@ extension Config {
     /// schemas prepared before the app boots
     private func setupPreparations() throws {
         preparations.append(Post.self)
+        preparations.append(Movie.self)
+        preparations.append(Show.self)
+        preparations.append(Season.self)
+        preparations.append(Episode.self)
     }
 
     // Add all commands

@@ -85,7 +85,7 @@ extension Episode: JSONConvertible {
         try self.init(
             showID: json.get("showID"),
             seasonID: json.get("showID"),
-            episodeNum: json.get("episodeNum")
+            episodeNum: json.get("episodeNum"),
             title: json.get("title"),
             description: json.get("description"),
             releaseDate: json.get("releaseDate")
@@ -97,9 +97,9 @@ extension Episode: JSONConvertible {
         try json.set("id", id)
         try json.set("showID", showID)
         try json.set("episodeNum", episodeNum)
-        try json.set("title")
-        try json.set("description")
-        try json.set("releaseDate")
+        try json.set("title", title)
+        try json.set("description", description)
+        try json.set("releaseDate", releaseDate)
         return json
     }
 }

@@ -13,16 +13,32 @@ final class MovieController {
         return try Movie.all().makeJSON()
     }
 
-    func show(request: Request, movie: Movie) throws -> ResponseRepresentable {
+    func store(request: Request) throws -> ResponseRepresentable {
+      let movie = try Movie(json: request.json!)
+      try movie.save()
+      return movie
+    }
+
+    func show(request: Request, movie: Movie) -> ResponseRepresentable {
         return movie
     }
 
     func update(request: Request, movie: Movie) throws -> ResponseRepresentable {
-        let new = try request.jsonMovie()
-        movie.title = new.title
-        movie.description = new.description
-        movie.releaseDate = new.releaseDate
-        movie.ageRating = new.ageRating
+        if let title = request.data["title"]?.string {
+          movie.title = title
+        }
+
+        if let description = request.data["description"]?.string {
+          movie.description = description
+        }
+
+        if let releaseDate = request.data["releaseDate"]?.date {
+          movie.releaseDate = releaseDate
+        }
+
+        if let ageRating = request.data["title"]?.int {
+          movie.ageRating = ageRating
+        }
         try movie.save()
         return Response(status: .ok)
     }
@@ -41,6 +57,7 @@ final class MovieController {
 extension MovieController: ResourceRepresentable {
     func makeResource() -> Resource<Movie> {
         return Resource(index: index,
+                        store: store,
                         show: show,
                         update: update,
                         destroy: delete,

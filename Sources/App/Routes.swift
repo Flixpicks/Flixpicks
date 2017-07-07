@@ -24,10 +24,7 @@ extension Droplet {
 
         get("description") { req in return req.description }
 
-        post("addMovie") { req in
-            let movie = try Movie(json: req.json())
-            try movie.save()
-            return movie
-        }
+        let movieController = MovieController()
+        resource("movies", movieController)
     }
 }

@@ -97,7 +97,6 @@ extension Movie: ResponseRepresentable { }
 // MARK: Request
 extension Request {
     func jsonMovie() throws -> Movie {
-        try print(json())
-        return try Movie(json: json())
+        return try Movie(json: json!)
     }
 }

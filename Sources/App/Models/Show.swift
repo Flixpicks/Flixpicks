@@ -18,15 +18,13 @@ final class Show: Model {
     var description: String
     var releaseDate: Date
     var ageRating: Int
-    var numSeasons: Int
 
     /// Creates a new Show
-    init(title: String, description: String, releaseDate: Date, ageRating: Int, numSeasons: Int) {
+    init(title: String, description: String, releaseDate: Date, ageRating: Int) {
         self.title = title
         self.description = description
         self.releaseDate = releaseDate
         self.ageRating = ageRating
-        self.numSeasons = numSeasons
     }
 
     // MARK: Fluent Serialization
@@ -38,7 +36,6 @@ final class Show: Model {
         description = try row.get("description")
         releaseDate = try row.get("releaseDate")
         ageRating = try row.get("ageRating")
-        numSeasons = try row.get("numSeasons")
     }
 
     // Serializes the Show to the database
@@ -48,7 +45,6 @@ final class Show: Model {
         try row.set("description", description)
         try row.set("releaseDate", releaseDate)
         try row.set("ageRating", ageRating)
-        try row.set("numSeasons", description)
         return row
     }
 }
@@ -64,7 +60,6 @@ extension Show: Preparation {
             builder.string("description")
             builder.date("releaseDate")
             builder.int("ageRating")
-            builder.string("numSeasons")
         }
     }
 
@@ -81,8 +76,7 @@ extension Show: JSONConvertible {
             title: json.get("title"),
             description: json.get("description"),
             releaseDate: json.get("releaseDate"),
-            ageRating: json.get("ageRating"),
-            numSeasons: json.get("numSeasons")
+            ageRating: json.get("ageRating")
         )
     }
 
@@ -93,7 +87,6 @@ extension Show: JSONConvertible {
         try json.set("description", description)
         try json.set("releaseDate", releaseDate)
         try json.set("ageRating", ageRating)
-        try json.set("numSeasons", numSeasons)
         return json
     }
 }

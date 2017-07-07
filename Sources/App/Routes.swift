@@ -26,5 +26,14 @@ extension Droplet {
 
         let movieController = MovieController()
         resource("movies", movieController)
+
+        let showController = ShowController()
+        resource("shows", showController)
+
+        let seasonController = SeasonController()
+        resource("seasons", seasonController)
+
+        let episodeController = EpisodeController()
+        resource("episodeController", episodeController)
     }
 }

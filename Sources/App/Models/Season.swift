@@ -13,18 +13,16 @@ import HTTP
 final class Season: Model {
     let storage = Storage()
 
-    /// The content of the Movie
+    /// The content of the Season
     var showID: Int
     var seasonNum: Int
-    var title: String
     var description: String
     var releaseDate: Date
 
-    /// Creates a new Movie
-    init(showID: Int, seasonNum: Int, title: String, description: String, releaseDate: Date) {
+    /// Creates a new Season
+    init(showID: Int, seasonNum: Int, description: String, releaseDate: Date) {
         self.showID = showID
         self.seasonNum = seasonNum
-        self.title = title
         self.description = description
         self.releaseDate = releaseDate
     }
@@ -36,7 +34,6 @@ final class Season: Model {
     init(row: Row) throws {
         showID = try row.get("showID")
         seasonNum = try row.get("seasonNum")
-        title = try row.get("title")
         description = try row.get("description")
         releaseDate = try row.get("releaseDate")
     }
@@ -46,7 +43,6 @@ final class Season: Model {
         var row = Row()
         try row.set("showID", showID)
         try row.set("seasonNum", seasonNum)
-        try row.set("title", title)
         try row.set("description", description)
         try row.set("releaseDate", releaseDate)
         return row
@@ -62,7 +58,6 @@ extension Season: Preparation {
             builder.id()
             builder.int("showID")
             builder.int("seasonNum")
-            builder.string("title")
             builder.string("description")
             builder.date("releaseDate")
         }
@@ -80,7 +75,6 @@ extension Season: JSONConvertible {
         try self.init(
             showID: json.get("showID"),
             seasonNum: json.get("seasonNum"),
-            title: json.get("title"),
             description: json.get("description"),
             releaseDate: json.get("releaseDate")
         )
@@ -91,7 +85,6 @@ extension Season: JSONConvertible {
         try json.set("id", id)
         try json.set("showID", showID)
         try json.set("seasonNum", seasonNum)
-        try json.set("title", title)
         try json.set("description", description)
         try json.set("releaseDate", releaseDate)
         return json

@@ -60,7 +60,7 @@ extension Season: Preparation {
         try database.create(self) { builder in
             builder.id()
             builder.int("season_num")
-            builder.string("description")
+            builder.string("description", length: 1000)
             builder.date("release_date")
             builder.parent(Show.self, optional: false)
         }

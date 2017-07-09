@@ -60,7 +60,7 @@ extension Show: Preparation {
         try database.create(self) { builder in
             builder.id()
             builder.string("title")
-            builder.string("description")
+            builder.string("description", length: 1000)
             builder.date("release_date")
             builder.int("age_rating")
         }

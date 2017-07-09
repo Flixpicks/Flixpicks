@@ -62,7 +62,7 @@ extension Episode: Preparation {
             builder.id()
             builder.int("episode_num")
             builder.string("title")
-            builder.string("description")
+            builder.string("description", length: 1000)
             builder.date("release_date")
             builder.parent(Season.self, optional: false)
         }

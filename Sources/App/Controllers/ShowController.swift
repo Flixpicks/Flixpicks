@@ -32,12 +32,12 @@ final class ShowController {
           show.description = description
         }
 
-        if let releaseDate = request.data["releaseDate"]?.date {
-          show.releaseDate = releaseDate
+        if let release_date = request.data["release_date"]?.date {
+          show.release_date = release_date
         }
 
-        if let ageRating = request.data["ageRating"]?.int {
-          show.ageRating = ageRating
+        if let age_rating = request.data["age_rating"]?.int {
+          show.age_rating = age_rating
         }
         try show.save()
         return Response(status: .ok)

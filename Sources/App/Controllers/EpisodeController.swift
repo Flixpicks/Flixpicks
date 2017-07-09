@@ -24,16 +24,12 @@ final class EpisodeController {
     }
 
     func update(request: Request, episode: Episode) throws -> ResponseRepresentable {
-        if let showID = request.data["showID"]?.int {
-          episode.showID = showID
+        if let season_id = request.data["season_id"]?.int {
+          episode.season_id = season_id
         }
 
-        if let seasonID = request.data["seasonID"]?.int {
-          episode.seasonID = seasonID
-        }
-
-        if let episodeNum = request.data["episodeNum"]?.int {
-          episode.episodeNum = episodeNum
+        if let episode_num = request.data["episode_num"]?.int {
+          episode.episode_num = episode_num
         }
 
         if let title = request.data["title"]?.string {
@@ -44,8 +40,8 @@ final class EpisodeController {
           episode.description = description
         }
 
-        if let releaseDate = request.data["releaseDate"]?.date {
-          episode.releaseDate = releaseDate
+        if let release_date = request.data["release_date"]?.date {
+          episode.release_date = release_date
         }
         try episode.save()
         return Response(status: .ok)

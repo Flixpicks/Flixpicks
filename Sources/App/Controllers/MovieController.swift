@@ -32,12 +32,12 @@ final class MovieController {
           movie.description = description
         }
 
-        if let releaseDate = request.data["releaseDate"]?.date {
-          movie.releaseDate = releaseDate
+        if let release_date = request.data["release_date"]?.date {
+          movie.release_date = release_date
         }
 
-        if let ageRating = request.data["title"]?.int {
-          movie.ageRating = ageRating
+        if let age_rating = request.data["age_rating"]?.int {
+          movie.age_rating = age_rating
         }
         try movie.save()
         return Response(status: .ok)

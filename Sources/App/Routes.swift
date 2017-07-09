@@ -34,6 +34,6 @@ extension Droplet {
         resource("seasons", seasonController)
 
         let episodeController = EpisodeController()
-        resource("episodeController", episodeController)
+        resource("episodes", episodeController)
     }
 }

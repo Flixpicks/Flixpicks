@@ -16,15 +16,18 @@ final class Show: Model {
     /// The content of the Show
     var title: String
     var description: String
-    var releaseDate: Date
-    var ageRating: Int
+    var release_date: Date
+    var age_rating: Int
+    var seasons: Children<Show, Season> {
+        return children()
+    }
 
     /// Creates a new Show
-    init(title: String, description: String, releaseDate: Date, ageRating: Int) {
+    init(title: String, description: String, release_date: Date, age_rating: Int) {
         self.title = title
         self.description = description
-        self.releaseDate = releaseDate
-        self.ageRating = ageRating
+        self.release_date = release_date
+        self.age_rating = age_rating
     }
 
     // MARK: Fluent Serialization
@@ -34,8 +37,8 @@ final class Show: Model {
     init(row: Row) throws {
         title = try row.get("title")
         description = try row.get("description")
-        releaseDate = try row.get("releaseDate")
-        ageRating = try row.get("ageRating")
+        release_date = try row.get("release_date")
+        age_rating = try row.get("age_rating")
     }
 
     // Serializes the Show to the database
@@ -43,8 +46,8 @@ final class Show: Model {
         var row = Row()
         try row.set("title", title)
         try row.set("description", description)
-        try row.set("releaseDate", releaseDate)
-        try row.set("ageRating", ageRating)
+        try row.set("release_date", release_date)
+        try row.set("age_rating", age_rating)
         return row
     }
 }
@@ -58,8 +61,8 @@ extension Show: Preparation {
             builder.id()
             builder.string("title")
             builder.string("description")
-            builder.date("releaseDate")
-            builder.int("ageRating")
+            builder.date("release_date")
+            builder.int("age_rating")
         }
     }
 
@@ -75,8 +78,8 @@ extension Show: JSONConvertible {
         try self.init(
             title: json.get("title"),
             description: json.get("description"),
-            releaseDate: json.get("releaseDate"),
-            ageRating: json.get("ageRating")
+            release_date: json.get("release_date"),
+            age_rating: json.get("age_rating")
         )
     }
 
@@ -85,9 +88,18 @@ extension Show: JSONConvertible {
         try json.set("id", id)
         try json.set("title", title)
         try json.set("description", description)
-        try json.set("releaseDate", releaseDate)
-        try json.set("ageRating", ageRating)
+        try json.set("release_date", release_date)
+        try json.set("age_rating", age_rating)
+        try json.set("seasons", makeSeasonsJSON(seasons: seasons.all()))
         return json
+    }
+
+    func makeSeasonsJSON(seasons: [Season]) throws -> [JSON] {
+      var seasonsJSON = [JSON]()
+      for season in seasons {
+          seasonsJSON.append(try season.makeJSON())
+      }
+      return seasonsJSON
     }
 }
 

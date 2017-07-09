@@ -16,15 +16,15 @@ final class Movie: Model {
     /// The content of the Movie
     var title: String
     var description: String
-    var releaseDate: Date
-    var ageRating: Int
+    var release_date: Date
+    var age_rating: Int
 
     /// Creates a new Movie
-    init(title: String, description: String, releaseDate: Date, ageRating: Int) {
+    init(title: String, description: String, release_date: Date, age_rating: Int) {
         self.title = title
         self.description = description
-        self.releaseDate = releaseDate
-        self.ageRating = ageRating
+        self.release_date = release_date
+        self.age_rating = age_rating
     }
 
     // MARK: Fluent Serialization
@@ -34,8 +34,8 @@ final class Movie: Model {
     init(row: Row) throws {
         title = try row.get("title")
         description = try row.get("description")
-        releaseDate = try row.get("releaseDate")
-        ageRating = try row.get("ageRating")
+        release_date = try row.get("release_date")
+        age_rating = try row.get("age_rating")
     }
 
     // Serializes the Movie to the database
@@ -43,8 +43,8 @@ final class Movie: Model {
         var row = Row()
         try row.set("title", title)
         try row.set("description", description)
-        try row.set("releaseDate", releaseDate)
-        try row.set("ageRating", ageRating)
+        try row.set("release_date", release_date)
+        try row.set("age_rating", age_rating)
         return row
     }
 }
@@ -58,8 +58,8 @@ extension Movie: Preparation {
             builder.id()
             builder.string("title")
             builder.string("description")
-            builder.date("releaseDate")
-            builder.int("ageRating")
+            builder.date("release_date")
+            builder.int("age_rating")
         }
     }
 
@@ -75,8 +75,8 @@ extension Movie: JSONConvertible {
         try self.init(
             title: json.get("title"),
             description: json.get("description"),
-            releaseDate: json.get("releaseDate"),
-            ageRating: json.get("ageRating")
+            release_date: json.get("release_date"),
+            age_rating: json.get("age_rating")
         )
     }
 
@@ -85,8 +85,8 @@ extension Movie: JSONConvertible {
         try json.set("id", id)
         try json.set("title", title)
         try json.set("description", description)
-        try json.set("releaseDate", releaseDate)
-        try json.set("ageRating", ageRating)
+        try json.set("release_date", release_date)
+        try json.set("age_rating", age_rating)
         return json
     }
 }

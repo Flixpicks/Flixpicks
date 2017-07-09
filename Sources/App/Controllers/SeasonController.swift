@@ -24,20 +24,20 @@ final class SeasonController {
     }
 
     func update(request: Request, season: Season) throws -> ResponseRepresentable {
-        if let showID = request.data["showID"]?.int {
-            season.showID = showID
+        if let show_id = request.data["show_id"]?.int {
+            season.show_id = show_id
         }
 
-        if let seasonNum = request.data["seasonNum"]?.int {
-            season.seasonNum = seasonNum
+        if let season_num = request.data["season_num"]?.int {
+            season.season_num = season_num
         }
 
         if let description = request.data["description"]?.string {
             season.description = description
         }
 
-        if let releaseDate = request.data["releaseDate"]?.date {
-            season.releaseDate = releaseDate
+        if let release_date = request.data["release_date"]?.date {
+            season.release_date = release_date
         }
         try season.save()
         return Response(status: .ok)

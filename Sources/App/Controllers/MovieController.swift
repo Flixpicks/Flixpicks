@@ -39,6 +39,10 @@ final class MovieController {
         if let age_rating = request.data["age_rating"]?.int {
           movie.age_rating = age_rating
         }
+
+        if let genre = request.data["genre"]?.int {
+          movie.genre = genre
+        }
         try movie.save()
         return Response(status: .ok)
     }

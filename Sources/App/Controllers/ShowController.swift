@@ -39,6 +39,10 @@ final class ShowController {
         if let age_rating = request.data["age_rating"]?.int {
           show.age_rating = age_rating
         }
+
+        if let genre = request.data["genre"]?.int {
+          show.genre = genre
+        }
         try show.save()
         return Response(status: .ok)
     }

@@ -5,35 +5,21 @@ extension Droplet {
         get("/") { req in
           return try self.view.make("index.html")
         }
+        
+        setupMediaRoutes();
+    }
 
-        get("hello") { req in
-            var json = JSON()
-            try json.set("hello", "world")
-            return json
-        }
+    private func setupMediaRoutes() {
+      let movieController = MovieController()
+      resource("movies", movieController)
 
-        get("plaintext") { req in
-            return "Hello, world!"
-        }
+      let showController = ShowController()
+      resource("shows", showController)
 
-        // response to requests to /info domain
-        // with a description of the request
-        get("info") { req in
-            return req.description
-        }
+      let seasonController = SeasonController()
+      resource("seasons", seasonController)
 
-        get("description") { req in return req.description }
-
-        let movieController = MovieController()
-        resource("movies", movieController)
-
-        let showController = ShowController()
-        resource("shows", showController)
-
-        let seasonController = SeasonController()
-        resource("seasons", seasonController)
-
-        let episodeController = EpisodeController()
-        resource("episodes", episodeController)
+      let episodeController = EpisodeController()
+      resource("episodes", episodeController)
     }
 }

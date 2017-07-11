@@ -1,11 +1,11 @@
 import Vapor
+import Sessions
 import AuthProvider
 
 extension Droplet {
     func setupRoutes() throws {
         try setupUnauthenticatedRoutes()
-        try setupPasswordProtectedRoutes()
-        try setupTokenProtectedRoutes()
+        try setupAuthorizedRoutes()
     }
     
     //Setup all routes that don't need authentication
@@ -58,29 +58,17 @@ extension Droplet {
         }
     }
     
-    //Setup all routes that need a password
-    private func setupPasswordProtectedRoutes() throws {
-        let password = grouped([
+    //Setup all routes that need authorization
+    private func setupAuthorizedRoutes() throws {
+        let memory = MemorySessions()
+        let authed = grouped([
+            SessionsMiddleware(memory),
+            PersistMiddleware(User.self),
             PasswordAuthenticationMiddleware(User.self)
         ])
         
-        password.post("login") { req in
-            let user = try req.user()
-            let token = try Token.generate(for: user)
-            try token.save()
-            return token
-        }
-    }
-    
-    //Setup Token authenticated routes
-    private func setupTokenProtectedRoutes() throws {
-        let token = grouped([
-            TokenAuthenticationMiddleware(User.self)
-        ])
-        
-        token.get("me") { req in
-            let user = try req.user()
-            return "Hello, \(user.name)"
+        authed.post("login") { req in
+            return try req.user()
         }
     }
 }

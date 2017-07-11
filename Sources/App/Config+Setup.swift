@@ -22,7 +22,6 @@ extension Config {
     /// schemas prepared before the app boots
     private func setupPreparations() throws {
         preparations.append(User.self)
-        preparations.append(Token.self)
     }
 
     // Add all commands

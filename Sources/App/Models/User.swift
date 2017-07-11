@@ -76,7 +76,7 @@ extension User: JSONConvertible {
 }
 
 // MARK: HTTP
-extension User: ResponseRepresentable { }
+extension User: ResponseRepresentable {}
 
 // MARK: PasswordAuthenticatable
 extension User: PasswordAuthenticatable {
@@ -94,10 +94,8 @@ extension User: PasswordAuthenticatable {
 // is not yet allowed in Swift
 private var _userPasswordVerifier: PasswordVerifier? = nil
 
-// MARK: Token
-extension User: TokenAuthenticatable {
-    typealias TokenType = Token
-}
+// MARK: Persist Session
+extension User: SessionPersistable {}
 
 // MARK: Request
 extension Request {

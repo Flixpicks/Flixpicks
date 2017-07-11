@@ -31,11 +31,6 @@ final class UserController {
         try user.delete()
         return Response(status: .ok)
     }
-    
-    func clear(requset: Request) throws -> ResponseRepresentable {
-        try User.makeQuery().delete()
-        return Response(status: .ok)
-    }
 }
 
 extension UserController: ResourceRepresentable {

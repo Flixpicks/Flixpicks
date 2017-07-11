@@ -14,11 +14,13 @@ extension Config {
     /// Configure providers
     private func setupProviders() throws {
         try addProvider(MySQLProvider.Provider.self)
+        try addProvider(AuthProvider.Provider.self)
     }
 
     /// Add all models that should have their
     /// schemas prepared before the app boots
     private func setupPreparations() throws {
+        preparations.append(User.self)
         preparations.append(Movie.self)
         preparations.append(Show.self)
         preparations.append(Season.self)
@@ -27,7 +29,7 @@ extension Config {
 
     // Add all commands
     private func setupCommands() throws {
-      try addConfigurable(command: StartCommand.init, name: "start")
-      try addConfigurable(command: ProdCommand.init, name: "prod")
+        try addConfigurable(command: StartCommand.init, name: "start")
+        try addConfigurable(command: ProdCommand.init, name: "prod")
     }
 }

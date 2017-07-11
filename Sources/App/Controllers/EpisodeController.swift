@@ -51,11 +51,6 @@ final class EpisodeController {
         try episode.delete()
         return Response(status: .ok)
     }
-
-    func clear(requset: Request) throws -> ResponseRepresentable {
-        try Episode.makeQuery().delete()
-        return Response(status: .ok)
-    }
 }
 
 extension EpisodeController: ResourceRepresentable {
@@ -64,7 +59,6 @@ extension EpisodeController: ResourceRepresentable {
                         store: store,
                         show: show,
                         update: update,
-                        destroy: delete,
-                        clear: clear)
+                        destroy: delete)
     }
 }

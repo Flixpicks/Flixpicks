@@ -51,11 +51,6 @@ final class MovieController {
         try movie.delete()
         return Response(status: .ok)
     }
-
-    func clear(requset: Request) throws -> ResponseRepresentable {
-        try Movie.makeQuery().delete()
-        return Response(status: .ok)
-    }
 }
 
 extension MovieController: ResourceRepresentable {
@@ -64,7 +59,6 @@ extension MovieController: ResourceRepresentable {
                         store: store,
                         show: show,
                         update: update,
-                        destroy: delete,
-                        clear: clear)
+                        destroy: delete)
     }
 }

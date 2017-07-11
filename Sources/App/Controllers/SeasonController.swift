@@ -47,11 +47,6 @@ final class SeasonController {
         try season.delete()
         return Response(status: .ok)
     }
-
-    func clear(requset: Request) throws -> ResponseRepresentable {
-        try Season.makeQuery().delete()
-        return Response(status: .ok)
-    }
 }
 
 extension SeasonController: ResourceRepresentable {
@@ -60,7 +55,6 @@ extension SeasonController: ResourceRepresentable {
                         store: store,
                         show: show,
                         update: update,
-                        destroy: delete,
-                        clear: clear)
+                        destroy: delete)
     }
 }

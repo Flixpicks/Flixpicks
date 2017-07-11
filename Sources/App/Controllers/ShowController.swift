@@ -51,11 +51,6 @@ final class ShowController {
         try show.delete()
         return Response(status: .ok)
     }
-
-    func clear(requset: Request) throws -> ResponseRepresentable {
-        try Show.makeQuery().delete()
-        return Response(status: .ok)
-    }
 }
 
 extension ShowController: ResourceRepresentable {
@@ -64,7 +59,6 @@ extension ShowController: ResourceRepresentable {
                         store: store,
                         show: show,
                         update: update,
-                        destroy: delete,
-                        clear: clear)
+                        destroy: delete)
     }
 }

@@ -1,4 +1,5 @@
 import MySQLProvider
+import AuthProvider
 
 extension Config {
     public func setup() throws {

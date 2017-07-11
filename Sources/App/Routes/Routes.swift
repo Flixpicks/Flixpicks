@@ -6,7 +6,6 @@ extension Droplet {
     func setupRoutes() throws {
         try setupUnauthenticatedRoutes()
         try setupAuthorizedRoutes()
-        setupMediaRoutes()
     }
 
     //Setup all routes that don't need authentication
@@ -57,6 +56,11 @@ extension Droplet {
             try user.save()
             return user
         }
+
+        try setupUnauthenticatedMovieRoutes();
+        try setupUnauthenticatedShowRoutes();
+        try setupUnauthenticatedSeasonRoutes();
+        try setupUnauthenticatedEpisodeRoutes();
     }
 
     //Setup all routes that need authorization
@@ -71,19 +75,10 @@ extension Droplet {
         authed.post("login") { req in
             return try req.user()
         }
-    }
 
-    private func setupMediaRoutes() {
-      let movieController = MovieController()
-      resource("movies", movieController)
-
-      let showController = ShowController()
-      resource("shows", showController)
-
-      let seasonController = SeasonController()
-      resource("seasons", seasonController)
-
-      let episodeController = EpisodeController()
-      resource("episodes", episodeController)
+        try setupAuthorizedMovieRoutes(authed: authed)
+        try setupAuthorizedShowRoutes(authed: authed)
+        try setupAuthorizedSeasonRoutes(authed: authed)
+        try setupAuthorizedEpisodeRoutes(authed: authed)
     }
 }

@@ -101,7 +101,7 @@
       "package": "MySQLDriver",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/mysql-driver.git",
-      "version": "2.0.1"
+      "version": "2.0.2"
     },
     {
       "package": "MySQLProvider",
@@ -149,7 +149,7 @@
       "package": "Vapor",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/vapor.git",
-      "version": "2.1.1"
+      "version": "2.1.2"
     }
   ],
   "version": 1

@@ -15,14 +15,11 @@ before_install:
         else
             eval "$(curl -sL https://apt.vapor.sh)";
             sudo apt-get install vapor;
-            sudo chmod -R a+rx /usr/;
             sudo apt-get install cmysql;
+            sudo chmod -R a+rx /usr/;
         fi
 
 script:
     - vapor build --verbose
-    - vapor build --release
+    - vapor build --release --verbose
     - vapor test
-
-after_success:
-    - eval "$(curl -sL https://swift.vapor.sh/codecov)"

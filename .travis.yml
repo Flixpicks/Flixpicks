@@ -20,9 +20,9 @@ before_install:
         fi
 
 script:
-    - swift build -Xswiftc -DNOJSON
-    - swift build -c release -Xswiftc -DNOJSON
-    - swift test
+    - vapor build --verbose
+    - vapor build --release
+    - vapor test
 
 after_success:
     - eval "$(curl -sL https://swift.vapor.sh/codecov)"

@@ -22,4 +22,4 @@ before_install:
 script:
     - vapor build --verbose
     - vapor build --release --verbose
-    - vapor test
+    - vapor test --verbose

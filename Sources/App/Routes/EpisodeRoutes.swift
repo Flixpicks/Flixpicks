@@ -23,7 +23,7 @@ extension Droplet {
             return episodeController.show(request: req, episode: episode)
         }
     }
-    
+
     //Setup all episode routes that need authorization
     func setupAuthorizedEpisodeRoutes(authed: RouteBuilder) throws {
         let episodeController = EpisodeController()

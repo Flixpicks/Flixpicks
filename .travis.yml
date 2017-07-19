@@ -15,11 +15,11 @@ before_install:
         else
             eval "$(curl -sL https://apt.vapor.sh)";
             sudo apt-get install vapor;
-            sudo apt-get install cmysql;
+            sudo apt-get install cmysql -qq;
         fi
 
 script:
-    - vapor update
+    - vapor update --verbose
     - vapor build --verbose
     - vapor build --release --verbose
     - vapor test --verbose

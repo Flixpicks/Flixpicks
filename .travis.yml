@@ -19,6 +19,7 @@ before_install:
         fi
 
 script:
+    - vapor update
     - vapor build --verbose
     - vapor build --release --verbose
     - vapor test --verbose

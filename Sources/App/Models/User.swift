@@ -63,7 +63,6 @@ extension User: JSONConvertible {
             name: json.get("name"),
             email: json.get("email")
         )
-        id = try json.get("id")
     }
     
     func makeJSON() throws -> JSON {

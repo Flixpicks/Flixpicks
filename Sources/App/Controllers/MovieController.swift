@@ -14,7 +14,17 @@ final class MovieController {
         return try Movie.all().makeJSON()
     }
 
-    func store(request: Request) throws -> ResponseRepresentable {
+    func store(drop: Droplet, request: Request) throws -> ResponseRepresentable {
+      print(request)
+      let body = try Body.data( Node(node: [
+                            "file": request.data["poster"],
+                            "upload_preset": "upjvzh8n"
+                            ]).formURLEncoded())
+      let poster_response = try drop.client.post("https://api.cloudinary.com/v1_1/flixpicks/image/upload",
+                                                 query: [:],
+                                                 ["Content-Type": "application/x-www-form-urlencoded"],
+                                                 body)
+      print(poster_response)
       let movie = try Movie(json: request.json!)
       try movie.save()
       return movie
@@ -54,12 +64,12 @@ final class MovieController {
     }
 }
 
-extension MovieController: ResourceRepresentable {
-    func makeResource() -> Resource<Movie> {
-        return Resource(index: index,
-                        store: store,
-                        show: show,
-                        update: update,
-                        destroy: delete)
-    }
-}
+// extension MovieController: ResourceRepresentable {
+//     func makeResource() -> Resource<Movie> {
+//         return Resource(index: index,
+//                         store: store,
+//                         show: show,
+//                         update: update,
+//                         destroy: delete)
+//     }
+// }

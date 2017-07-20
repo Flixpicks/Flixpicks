@@ -19,6 +19,7 @@ final class Movie: Model {
     var release_date: Date
     var age_rating: Int
     var genre: Int
+    var poster_url: String
 
     /// Creates a new Movie
     init(title: String, description: String, release_date: Date, age_rating: Int, genre: Int) {
@@ -27,6 +28,7 @@ final class Movie: Model {
         self.release_date = release_date
         self.age_rating = age_rating
         self.genre = genre
+        self.poster_url = ""
     }
 
     // MARK: Fluent Serialization
@@ -39,6 +41,7 @@ final class Movie: Model {
         release_date = try row.get("release_date")
         age_rating = try row.get("age_rating")
         genre = try row.get("genre")
+        poster_url = ""
     }
 
     // Serializes the Movie to the database

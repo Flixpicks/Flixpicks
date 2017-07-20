@@ -1,5 +1,4 @@
 os:
-    - linux
     - osx
 language: generic
 sudo: required
@@ -7,20 +6,12 @@ dist: trusty
 
 osx_image: xcode8.3
 before_install:
-    - if [ $TRAVIS_OS_NAME == "osx" ]; then
-            brew tap vapor/tap;
-            brew update;
-            brew install vapor;
-        else
-            eval "$(curl -sL https://apt.vapor.sh)";
-            sudo apt-get install vapor;
-            sudo chmod -R a+rx /usr/;
-        fi
+    brew tap vapor/tap;
+    brew update;
+    brew install vapor;
+    brew install cmysql;
 
 script:
-    - swift build
-    - swift build -c release
-    - swift test
-
-after_success:
-    - eval "$(curl -sL https://swift.vapor.sh/codecov)"
+    - vapor build --verbose
+    - vapor build --release --verbose
+    - vapor test --verbose

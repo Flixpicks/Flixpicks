@@ -9,7 +9,7 @@ extension Config {
 
         try setupProviders()
         try setupPreparations()
-        try setupCommands()
+        setupCommands()
     }
 
     /// Configure providers
@@ -29,8 +29,8 @@ extension Config {
     }
 
     // Add all commands
-    private func setupCommands() throws {
-        try addConfigurable(command: StartCommand.init, name: "start")
-        try addConfigurable(command: ProdCommand.init, name: "prod")
+    private func setupCommands() {
+        addConfigurable(command: StartCommand.init, name: "start")
+        addConfigurable(command: ProdCommand.init, name: "prod")
     }
 }

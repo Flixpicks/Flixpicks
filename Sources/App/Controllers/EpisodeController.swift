@@ -53,13 +53,3 @@ final class EpisodeController {
         return Response(status: .ok)
     }
 }
-
-extension EpisodeController: ResourceRepresentable {
-    func makeResource() -> Resource<Episode> {
-        return Resource(index: index,
-                        store: store,
-                        show: show,
-                        update: update,
-                        destroy: delete)
-    }
-}

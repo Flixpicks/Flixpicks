@@ -13,9 +13,6 @@ import Sockets
 @testable import Vapor
 @testable import App
 
-/// This file shows an example of testing an
-/// individual controller without initializing
-/// a Droplet.
 class UserControllerTests: TestCase {
     let drop = try! Droplet.testable()
     let hostname = "localhost"
@@ -112,11 +109,6 @@ class UserControllerTests: TestCase {
     }
     
     func testPatch() throws {
-        guard let id = self.registerId else {
-            //Throw an error here
-            return
-        }
-        
         // Change it
         var json = JSON()
         try json.set("name", self.updatedName)

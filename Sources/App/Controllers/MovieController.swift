@@ -10,6 +10,8 @@ import Vapor
 import HTTP
 
 final class MovieController {
+    static let name = "MovieController"
+    
     func index(request: Request) throws -> ResponseRepresentable {
         return try Movie.all().makeJSON()
     }
@@ -54,12 +56,34 @@ final class MovieController {
     }
 }
 
-extension MovieController: ResourceRepresentable {
-    func makeResource() -> Resource<Movie> {
-        return Resource(index: index,
-                        store: store,
-                        show: show,
-                        update: update,
-                        destroy: delete)
+extension MovieController: SemiAuthenticatable {
+    func setupUnauthenticatedRoutes(builder: RouteBuilder) throws {
+        let movieController = MovieController()
+        
+        builder.get("movies", handler:movieController.index)
+        
+        builder.get("movies", Movie.parameter) { req in
+            let movie = try req.parameters.next(Movie.self)
+            
+            return movieController.show(request: req, movie: movie)
+        }
+    }
+    
+    func setupAuthenticatedRoutes(authed: RouteBuilder) throws {
+        let movieController = MovieController()
+        
+        authed.post("movies", handler: movieController.store)
+        
+        authed.patch("movies", Movie.parameter) { req in
+            let movie = try req.parameters.next(Movie.self)
+            
+            return try movieController.update(request: req, movie: movie)
+        }
+        
+        authed.delete("movies", Movie.parameter) { req in
+            let movie = try req.parameters.next(Movie.self)
+            
+            return try movieController.delete(request: req, movie: movie)
+        }
     }
 }

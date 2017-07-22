@@ -10,6 +10,8 @@ import Vapor
 import HTTP
 
 final class UserController {
+    static let name = "UserController"
+    
     func index(request: Request) throws -> ResponseRepresentable {
         return try User.all().makeJSON()
     }
@@ -39,5 +41,17 @@ extension UserController: ResourceRepresentable {
                         show: show,
                         update: update,
                         destroy: delete)
+    }
+}
+
+extension UserController: SemiAuthenticatable {
+    func setupUnauthenticatedRoutes(builder: RouteBuilder) throws {
+        builder.resource("users", self)
+    }
+    
+    func setupAuthenticatedRoutes(authed: RouteBuilder) throws {
+        authed.post("login") { req in
+            return try req.user()
+        }
     }
 }

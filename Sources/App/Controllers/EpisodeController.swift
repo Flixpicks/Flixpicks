@@ -10,6 +10,8 @@ import Vapor
 import HTTP
 
 final class EpisodeController {
+    static let name = "EpisodeController"
+    
     func index(request: Request) throws -> ResponseRepresentable {
         return try Episode.all().makeJSON()
     }
@@ -51,5 +53,37 @@ final class EpisodeController {
     func delete(request: Request, episode: Episode) throws -> ResponseRepresentable {
         try episode.delete()
         return Response(status: .ok)
+    }
+}
+
+extension EpisodeController: SemiAuthenticatable {
+    func setupUnauthenticatedRoutes(builder: RouteBuilder) throws {
+        let episodeController = EpisodeController()
+        
+        builder.get("episodes", handler: episodeController.index)
+        
+        builder.get("episodes", Episode.parameter) { req in
+            let episode = try req.parameters.next(Episode.self)
+            
+            return episodeController.show(request: req, episode: episode)
+        }
+    }
+    
+    func setupAuthenticatedRoutes(authed: RouteBuilder) throws {
+        let episodeController = EpisodeController()
+        
+        authed.post("episodes", handler: episodeController.store)
+        
+        authed.patch("episodes", Episode.parameter) { req in
+            let episode = try req.parameters.next(Episode.self)
+            
+            return try episodeController.update(request: req, episode: episode)
+        }
+        
+        authed.delete("episodes", Episode.parameter) { req in
+            let episode = try req.parameters.next(Episode.self)
+            
+            return try episodeController.delete(request: req, episode: episode)
+        }
     }
 }

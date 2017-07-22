@@ -10,6 +10,8 @@ import Vapor
 import HTTP
 
 final class SeasonController {
+    static let name = "SeasonController"
+    
     func index(request: Request) throws -> ResponseRepresentable {
         return try Season.all().makeJSON()
     }
@@ -50,12 +52,34 @@ final class SeasonController {
     }
 }
 
-extension SeasonController: ResourceRepresentable {
-    func makeResource() -> Resource<Season> {
-        return Resource(index: index,
-                        store: store,
-                        show: show,
-                        update: update,
-                        destroy: delete)
+extension SeasonController: SemiAuthenticatable {
+    func setupUnauthenticatedRoutes(builder: RouteBuilder) throws {
+        let seasonController = SeasonController()
+        
+        builder.get("seasons", handler: seasonController.index)
+        
+        builder.get("seasons", Season.parameter) { req in
+            let season = try req.parameters.next(Season.self)
+            
+            return seasonController.show(request: req, season: season)
+        }
+    }
+    
+    func setupAuthenticatedRoutes(authed: RouteBuilder) throws {
+        let seasonController = SeasonController()
+        
+        authed.post("seasons", handler: seasonController.store)
+        
+        authed.patch("seasons", Season.parameter) { req in
+            let season = try req.parameters.next(Season.self)
+            
+            return try seasonController.update(request: req, season: season)
+        }
+        
+        authed.delete("seasons", Season.parameter) { req in
+            let season = try req.parameters.next(Season.self)
+            
+            return try seasonController.delete(request: req, season: season)
+        }
     }
 }

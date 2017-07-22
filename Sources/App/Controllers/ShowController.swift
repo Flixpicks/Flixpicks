@@ -9,7 +9,9 @@
 import Vapor
 import HTTP
 
-final class ShowController {
+final class ShowController: Controller {
+    static let name = "ShowController"
+    
     func index(request: Request) throws -> ResponseRepresentable {
         return try Show.all().makeJSON()
     }
@@ -54,12 +56,34 @@ final class ShowController {
     }
 }
 
-extension ShowController: ResourceRepresentable {
-    func makeResource() -> Resource<Show> {
-        return Resource(index: index,
-                        store: store,
-                        show: show,
-                        update: update,
-                        destroy: delete)
+extension ShowController: SemiAuthenticatable {
+    func setupUnauthenticatedRoutes(builder: RouteBuilder) throws {
+        let showController = ShowController()
+        
+        builder.get("shows", handler: showController.index)
+        
+        builder.get("shows", Show.parameter) { req in
+            let show = try req.parameters.next(Show.self)
+            
+            return showController.show(request: req, show: show)
+        }
+    }
+    
+    func setupAuthenticatedRoutes(authed: RouteBuilder) throws {
+        let showController = ShowController()
+        
+        authed.post("shows", handler: showController.store)
+        
+        authed.patch("shows", Show.parameter) { req in
+            let show = try req.parameters.next(Show.self)
+            
+            return try showController.update(request: req, show: show)
+        }
+        
+        authed.delete("shows", Show.parameter) { req in
+            let show = try req.parameters.next(Show.self)
+            
+            return try showController.delete(request: req, show: show)
+        }
     }
 }

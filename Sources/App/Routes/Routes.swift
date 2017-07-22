@@ -3,38 +3,37 @@ import Sessions
 import AuthProvider
 
 extension Droplet {
+    
+    private static var controllers: [String : Controller] {
+        get {
+            return [UserController.name : UserController(),
+                    EpisodeController.name : EpisodeController(),
+                    MovieController.name : MovieController(),
+                    SeasonController.name : SeasonController(),
+                    ShowController.name : ShowController()]
+        }
+    }
+    
     func setupRoutes() throws {
         try setupUnauthenticatedRoutes()
         try setupAuthorizedRoutes()
     }
-
+    
     //Setup all routes that don't need authentication
     private func setupUnauthenticatedRoutes() throws {
+        
+        //Serves up our Webapp
         get("/") { req in
             return try self.view.make("index.html")
         }
-
-        get("hello") { req in
-            var json = JSON()
-            try json.set("hello", "world")
-            return json
-        }
-
-        get("plaintext") { req in
-            return "Hello, world!"
-        }
-
+        
         // response to requests to /info domain
         // with a description of the request
         get("info") { req in
             return req.description
         }
 
-        get("description") { req in return req.description }
-
-        let uc = UserController()
-        resource("users", uc)
-
+        // Register cannot be part of the UserController because
         post("register") { req in
             guard let json = req.json else {
                 throw Abort(.badRequest)
@@ -56,11 +55,10 @@ extension Droplet {
             try user.save()
             return user
         }
-
-        try setupUnauthenticatedMovieRoutes();
-        try setupUnauthenticatedShowRoutes();
-        try setupUnauthenticatedSeasonRoutes();
-        try setupUnauthenticatedEpisodeRoutes();
+        
+        for case let controller as SemiAuthenticatable in Droplet.controllers.values {
+            try controller.setupUnauthenticatedRoutes(builder: self)
+        }
     }
 
     //Setup all routes that need authorization
@@ -71,14 +69,9 @@ extension Droplet {
             PersistMiddleware(User.self),
             PasswordAuthenticationMiddleware(User.self)
         ])
-
-        authed.post("login") { req in
-            return try req.user()
+        
+        for case let controller as SemiAuthenticatable in Droplet.controllers.values {
+            try controller.setupAuthenticatedRoutes(authed: authed)
         }
-
-        try setupAuthorizedMovieRoutes(authed: authed)
-        try setupAuthorizedShowRoutes(authed: authed)
-        try setupAuthorizedSeasonRoutes(authed: authed)
-        try setupAuthorizedEpisodeRoutes(authed: authed)
     }
 }

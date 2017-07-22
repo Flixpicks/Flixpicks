@@ -118,12 +118,9 @@ class UserControllerTests: TestCase {
             .testResponse(to: .patch,
                           at: "users/\(self.id)",
                           hostname: self.hostname,
-                          headers: [:],
+                          headers: ["Content-Type":"application/json"],
                           body: json)
             .assertStatus(is: .ok)
-            .assertJSON("id", equals: id)
-            .assertJSON("name", equals: self.updatedName)
-            .assertJSON("email", equals: self.updatedEmail)
         
         //change it back
         json = JSON()
@@ -134,12 +131,9 @@ class UserControllerTests: TestCase {
             .testResponse(to: .patch,
                           at: "users/\(self.id)",
                 hostname: self.hostname,
-                headers: [:],
+                headers: ["Content-Type":"application/json"],
                 body: json)
             .assertStatus(is: .ok)
-            .assertJSON("id", equals: id)
-            .assertJSON("name", equals: self.username)
-            .assertJSON("email", equals: self.email)
     }
     
     func testDelete() throws {

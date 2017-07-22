@@ -9,7 +9,7 @@
 import Vapor
 import HTTP
 
-final class EpisodeController: Controller {
+final class EpisodeController {
     static let name = "EpisodeController"
     
     func index(request: Request) throws -> ResponseRepresentable {

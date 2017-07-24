@@ -15,9 +15,9 @@ import Sockets
 class EpisodeControllerTests: TVTestCase {
 
     let secondEpisodeNum = 22
-    let secondTitle = "Tistle 2"
+    let secondTitle = "Title 2"
     let secondDescription = "Description 2"
-    let secondReleaseDate = "2014-10-21 00:00:00"
+    let secondReleaseDate = "2011-02-11T00:00:00.000Z"
 
     func testCreate() {
         do {
@@ -26,14 +26,14 @@ class EpisodeControllerTests: TVTestCase {
             episodeId = episodeResponse.data["id"]?.int
             XCTAssertNotNil(episodeId)
             
-            //TODO: Add test for release date
             try episodeResponse
                 .assertStatus(is: .ok)
-                .assertJSON("id",          equals: self.episodeId)
-                .assertJSON("season_id",   equals: self.seasonId!)
-                .assertJSON("episode_num", equals: self.initialEpisodeNum)
-                .assertJSON("title",       equals: self.initialEpisodeTitle)
-                .assertJSON("description", equals: self.initialEpisodeDescription)
+                .assertJSON("id",           equals: self.episodeId)
+                .assertJSON("season_id",    equals: self.seasonId!)
+                .assertJSON("episode_num",  equals: self.initialEpisodeNum)
+                .assertJSON("title",        equals: self.initialEpisodeTitle)
+                .assertJSON("description",  equals: self.initialEpisodeDescription)
+                .assertJSON("release_date", equals: self.initialEpisodeReleaseDate)
         } catch {
             XCTFail("testCreate failed with error: \(error)")
         }
@@ -44,16 +44,16 @@ class EpisodeControllerTests: TVTestCase {
             try createAll()
             
             if let episodeId = self.episodeId {
-                //TODO: Add test for release date
                 try drop
                     .testResponse(to: .get,
                                   at: "/episodes/\(episodeId)")
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.episodeId)
-                    .assertJSON("season_id",   equals: self.seasonId!)
-                    .assertJSON("episode_num", equals: self.initialEpisodeNum)
-                    .assertJSON("title",       equals: self.initialEpisodeTitle)
-                    .assertJSON("description", equals: self.initialEpisodeDescription)
+                    .assertJSON("id",           equals: self.episodeId)
+                    .assertJSON("season_id",    equals: self.seasonId!)
+                    .assertJSON("episode_num",  equals: self.initialEpisodeNum)
+                    .assertJSON("title",        equals: self.initialEpisodeTitle)
+                    .assertJSON("description",  equals: self.initialEpisodeDescription)
+                    .assertJSON("release_date", equals: self.initialEpisodeReleaseDate)
             }
         } catch {
             XCTFail("testGetOne failed with error: \(error)")
@@ -88,15 +88,15 @@ class EpisodeControllerTests: TVTestCase {
                 episodeRequest.json = episodeData
                 episodeRequest.cookies.insert(sessionCookie!)
                 
-                //TODO: Add test for release date
                 try drop
                     .respond(to: episodeRequest, through: middleWare)
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.episodeId)
-                    .assertJSON("season_id",   equals: self.seasonId!)
-                    .assertJSON("episode_num", equals: self.secondEpisodeNum)
-                    .assertJSON("title",       equals: self.secondTitle)
-                    .assertJSON("description", equals: self.secondDescription)
+                    .assertJSON("id",           equals: self.episodeId)
+                    .assertJSON("season_id",    equals: self.seasonId!)
+                    .assertJSON("episode_num",  equals: self.secondEpisodeNum)
+                    .assertJSON("title",        equals: self.secondTitle)
+                    .assertJSON("description",  equals: self.secondDescription)
+                    .assertJSON("release_date", equals: self.secondReleaseDate)
                 
             }
         } catch {

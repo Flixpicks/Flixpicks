@@ -20,7 +20,7 @@ class SeasonControllerTests: TVTestCase {
 
     let secondSeasonNum = 2
     let secondDescription = "Description 2"
-    let secondReleaseDate = "2014-11-21 00:00:00"
+    let secondReleaseDate = "2014-11-21T00:00:00.000Z"
     
     func testCreate() {
         do {
@@ -29,13 +29,13 @@ class SeasonControllerTests: TVTestCase {
             seasonId = seasonResponse.data["id"]?.int
             XCTAssertNotNil(seasonId)
             
-            //TODO: Add test for release date
             try seasonResponse
                 .assertStatus(is: .ok)
-                .assertJSON("id",          equals: self.seasonId)
-                .assertJSON("show_id",     equals: self.showId!)
-                .assertJSON("season_num",  equals: self.initialSeasonNum)
-                .assertJSON("description", equals: self.initialSeasonDescription)
+                .assertJSON("id",           equals: self.seasonId)
+                .assertJSON("show_id",      equals: self.showId!)
+                .assertJSON("season_num",   equals: self.initialSeasonNum)
+                .assertJSON("description",  equals: self.initialSeasonDescription)
+                .assertJSON("release_date", equals: self.initialSeasonReleaseDate)
         } catch {
             XCTFail("testCreate failed with error: \(error)")
         }
@@ -46,15 +46,16 @@ class SeasonControllerTests: TVTestCase {
             try createAll()
             
             if let seasonId = self.seasonId {
-                //TODO: Add test for release date
                 try drop
                     .testResponse(to: .get,
                                   at: "/seasons/\(seasonId)")
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.seasonId)
-                    .assertJSON("show_id",     equals: self.showId!)
-                    .assertJSON("season_num",  equals: self.initialSeasonNum)
-                    .assertJSON("description", equals: self.initialSeasonDescription)
+                    .assertJSON("id",           equals: self.seasonId)
+                    .assertJSON("show_id",      equals: self.showId!)
+                    .assertJSON("season_num",   equals: self.initialSeasonNum)
+                    .assertJSON("description",  equals: self.initialSeasonDescription)
+                    .assertJSON("release_date", equals: self.initialSeasonReleaseDate)
+                    .assertJSON("episodes",     equals: [episodeJSON()])
             }
         } catch {
             XCTFail("testGetOne failed with error: \(error)")
@@ -88,14 +89,14 @@ class SeasonControllerTests: TVTestCase {
                 seasonRequest.json = seasonData
                 seasonRequest.cookies.insert(sessionCookie!)
                 
-                //TODO: Add test for release date
                 try drop
                     .respond(to: seasonRequest, through: middleWare)
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.seasonId)
-                    .assertJSON("show_id",     equals: self.showId!)
-                    .assertJSON("season_num",  equals: self.secondSeasonNum)
-                    .assertJSON("description", equals: self.secondDescription)
+                    .assertJSON("id",           equals: self.seasonId)
+                    .assertJSON("show_id",      equals: self.showId!)
+                    .assertJSON("season_num",   equals: self.secondSeasonNum)
+                    .assertJSON("description",  equals: self.secondDescription)
+                    .assertJSON("release_date", equals: self.secondReleaseDate)
                 
             }
         } catch {

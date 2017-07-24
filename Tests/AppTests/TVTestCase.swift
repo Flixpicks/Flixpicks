@@ -24,18 +24,18 @@ class TVTestCase: AuthenticationTestCase {
     
     let initialShowTitle = "Show Title 1"
     let initialShowDescription = "Show Description 1"
-    let initialShowReleaseDate = "2014-10-14 00:00:00"
+    let initialShowReleaseDate = "2017-04-12T00:00:00.000Z"
     let initialShowAgeRating = 5
     let initialShowGenre = 1
     
     let initialSeasonNum = 1
     let initialSeasonDescription = "Sesason Description 1"
-    let initialSeasonReleaseDate = "2014-10-21 00:00:00"
+    let initialSeasonReleaseDate = "2016-10-21T00:00:00.000Z"
     
     let initialEpisodeNum = 1
     let initialEpisodeTitle = "Episode Title 1"
     let initialEpisodeDescription = "Episode Description 1"
-    let initialEpisodeReleaseDate = "2014-10-28 00:00:00"
+    let initialEpisodeReleaseDate = "2010-09-28T00:00:00.000Z"
     
     override func setUp() {
         super.setUp()
@@ -82,15 +82,8 @@ class TVTestCase: AuthenticationTestCase {
     }
     
     func createShow() throws -> Response {
-        var showData = JSON()
-        try showData.set("title", self.initialShowTitle)
-        try showData.set("description", self.initialShowDescription)
-        try showData.set("release_date", self.initialShowReleaseDate)
-        try showData.set("age_rating", self.initialShowAgeRating)
-        try showData.set("genre", self.initialShowGenre)
-        
         let showRequest = Request(method: .post, uri: "/shows")
-        showRequest.json = showData
+        showRequest.json = try showJSON()
         showRequest.cookies.insert(sessionCookie!)
         
         return try drop.respond(to: showRequest, through: middleWare)
@@ -100,14 +93,8 @@ class TVTestCase: AuthenticationTestCase {
         let showResponse = try createShow()
         self.showId = showResponse.data["id"]?.int
         
-        var seasonData = JSON()
-        try seasonData.set("show_id", self.showId)
-        try seasonData.set("season_num", self.initialSeasonNum)
-        try seasonData.set("description", self.initialSeasonDescription)
-        try seasonData.set("release_date", self.initialSeasonReleaseDate)
-        
         let seasonRequest = Request(method: .post, uri: "/seasons")
-        seasonRequest.json = seasonData
+        seasonRequest.json = try seasonJSON()
         seasonRequest.cookies.insert(sessionCookie!)
         
         return try drop.respond(to: seasonRequest, through: middleWare)
@@ -117,17 +104,47 @@ class TVTestCase: AuthenticationTestCase {
         let seasonResponse = try createSeason()
         self.seasonId = seasonResponse.data["id"]?.int
         
-        var episodeData = JSON()
-        try episodeData.set("season_id", self.seasonId)
-        try episodeData.set("episode_num", self.initialEpisodeNum)
-        try episodeData.set("title", self.initialEpisodeTitle)
-        try episodeData.set("description", self.initialEpisodeDescription)
-        try episodeData.set("release_date", self.initialEpisodeReleaseDate)
-        
         let episodeRequest = Request(method: .post, uri: "/episodes")
-        episodeRequest.json = episodeData
+        episodeRequest.json = try episodeJSON()
         episodeRequest.cookies.insert(sessionCookie!)
         
         return try drop.respond(to: episodeRequest, through: middleWare)
+    }
+    
+    func episodeJSON() throws -> JSON {
+        var episodeJSON = JSON()
+        if let episodeId = self.episodeId {
+            try episodeJSON.set("id", episodeId)
+        }
+        try episodeJSON.set("season_id", self.seasonId)
+        try episodeJSON.set("episode_num", self.initialEpisodeNum)
+        try episodeJSON.set("title", self.initialEpisodeTitle)
+        try episodeJSON.set("description", self.initialEpisodeDescription)
+        try episodeJSON.set("release_date", self.initialEpisodeReleaseDate)
+        return episodeJSON
+    }
+    
+    func seasonJSON() throws -> JSON {
+        var seasonJSON = JSON()
+        if let seasonId = self.seasonId {
+            try seasonJSON.set("id", seasonId)
+        }
+        try seasonJSON.set("show_id", self.showId)
+        try seasonJSON.set("season_num", self.initialSeasonNum)
+        try seasonJSON.set("description", self.initialSeasonDescription)
+        try seasonJSON.set("release_date", self.initialSeasonReleaseDate)
+        
+        return seasonJSON
+    }
+    
+    func showJSON() throws -> JSON {
+        var showJSON = JSON()
+        try showJSON.set("title", self.initialShowTitle)
+        try showJSON.set("description", self.initialShowDescription)
+        try showJSON.set("release_date", self.initialShowReleaseDate)
+        try showJSON.set("age_rating", self.initialShowAgeRating)
+        try showJSON.set("genre", self.initialShowGenre)
+        
+        return showJSON
     }
 }

@@ -22,13 +22,13 @@ class MovieControllerTests: AuthenticationTestCase {
 
     let initialTitle = "Title 1"
     let initialDescription = "Description 1"
-    let initialReleaseDate = "2014-10-14 00:00:00"
+    let initialReleaseDate = "2010-08-11T00:00:00.000Z"
     let initialAgeRating = 5
     let initialGenre = 1
 
     let secondTitle = "Title 2"
     let secondDescription = "Description 2"
-    let secondReleaseDate = "2014-10-21 00:00:00"
+    let secondReleaseDate = "2014-10-21T00:00:00.000Z"
     let secondAgeRating = 4
     let secondGenre = 2
     
@@ -73,14 +73,14 @@ class MovieControllerTests: AuthenticationTestCase {
             movieId = movieResponse.data["id"]?.int
             XCTAssertNotNil(movieId)
             
-            //TODO: Add test for release date
             try movieResponse
                 .assertStatus(is: .ok)
-                .assertJSON("id",          equals: self.movieId)
-                .assertJSON("title",       equals: self.initialTitle)
-                .assertJSON("description", equals: self.initialDescription)
-                .assertJSON("age_rating",  equals: self.initialAgeRating)
-                .assertJSON("genre",       equals: self.initialGenre)
+                .assertJSON("id",           equals: self.movieId)
+                .assertJSON("title",        equals: self.initialTitle)
+                .assertJSON("description",  equals: self.initialDescription)
+                .assertJSON("release_date", equals: self.initialReleaseDate)
+                .assertJSON("age_rating",   equals: self.initialAgeRating)
+                .assertJSON("genre",        equals: self.initialGenre)
         } catch {
             XCTFail("testCreate failed with error: \(error)")
         }
@@ -92,16 +92,16 @@ class MovieControllerTests: AuthenticationTestCase {
             
             self.movieId = movieResponse.data["id"]?.int
             if let movieId = self.movieId {
-                //TODO: Add test for release date
                 try drop
                     .testResponse(to: .get,
                                   at: "/movies/\(movieId)")
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.movieId)
-                    .assertJSON("title",       equals: self.initialTitle)
-                    .assertJSON("description", equals: self.initialDescription)
-                    .assertJSON("age_rating",  equals: self.initialAgeRating)
-                    .assertJSON("genre",       equals: self.initialGenre)
+                    .assertJSON("id",           equals: self.movieId)
+                    .assertJSON("title",        equals: self.initialTitle)
+                    .assertJSON("description",  equals: self.initialDescription)
+                    .assertJSON("release_date", equals: self.initialReleaseDate)
+                    .assertJSON("age_rating",   equals: self.initialAgeRating)
+                    .assertJSON("genre",        equals: self.initialGenre)
             }
         } catch {
             XCTFail("testGetOne failed with error: \(error)")
@@ -139,15 +139,15 @@ class MovieControllerTests: AuthenticationTestCase {
                 movieRequest.json = movieData
                 movieRequest.cookies.insert(sessionCookie!)
                 
-                //TODO: Add test for release date
                 try drop
                     .respond(to: movieRequest, through: middleWare)
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.movieId)
-                    .assertJSON("title",       equals: self.secondTitle)
-                    .assertJSON("description", equals: self.secondDescription)
-                    .assertJSON("age_rating",  equals: self.secondAgeRating)
-                    .assertJSON("genre",       equals: self.secondGenre)
+                    .assertJSON("id",           equals: self.movieId)
+                    .assertJSON("title",        equals: self.secondTitle)
+                    .assertJSON("description",  equals: self.secondDescription)
+                    .assertJSON("release_date", equals: self.secondReleaseDate)
+                    .assertJSON("age_rating",   equals: self.secondAgeRating)
+                    .assertJSON("genre",        equals: self.secondGenre)
                 
             }
         } catch {

@@ -20,7 +20,7 @@ class ShowControllerTests: TVTestCase {
     
     let secondTitle = "Title 2"
     let secondDescription = "Description 2"
-    let secondReleaseDate = "2014-10-21 00:00:00"
+    let secondReleaseDate = "2014-10-21T00:00:00.000Z"
     let secondAgeRating = 4
     let secondGenre = 2
 
@@ -31,14 +31,14 @@ class ShowControllerTests: TVTestCase {
             showId = showResponse.data["id"]?.int
             XCTAssertNotNil(showId)
             
-            //TODO: Add test for release date
             try showResponse
                 .assertStatus(is: .ok)
-                .assertJSON("id",          equals: self.showId)
-                .assertJSON("title",       equals: self.initialShowTitle)
-                .assertJSON("description", equals: self.initialShowDescription)
-                .assertJSON("age_rating",  equals: self.initialShowAgeRating)
-                .assertJSON("genre",       equals: self.initialShowGenre)
+                .assertJSON("id",           equals: self.showId)
+                .assertJSON("title",        equals: self.initialShowTitle)
+                .assertJSON("description",  equals: self.initialShowDescription)
+                .assertJSON("release_date", equals: self.initialShowReleaseDate)
+                .assertJSON("age_rating",   equals: self.initialShowAgeRating)
+                .assertJSON("genre",        equals: self.initialShowGenre)
         } catch {
             XCTFail("testCreate failed with error: \(error)")
         }
@@ -47,18 +47,21 @@ class ShowControllerTests: TVTestCase {
     func testGetOne()  {
         do {
             try createAll()
+            var seasons = try seasonJSON()
+            try seasons.set("episodes", [episodeJSON()])
             
             if let showId = self.showId {
-                //TODO: Add test for release date
                 try drop
                     .testResponse(to: .get,
                                   at: "/shows/\(showId)")
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.showId)
-                    .assertJSON("title",       equals: self.initialShowTitle)
-                    .assertJSON("description", equals: self.initialShowDescription)
-                    .assertJSON("age_rating",  equals: self.initialShowAgeRating)
-                    .assertJSON("genre",       equals: self.initialShowGenre)
+                    .assertJSON("id",           equals: self.showId)
+                    .assertJSON("title",        equals: self.initialShowTitle)
+                    .assertJSON("description",  equals: self.initialShowDescription)
+                    .assertJSON("release_date", equals: self.initialShowReleaseDate)
+                    .assertJSON("age_rating",   equals: self.initialShowAgeRating)
+                    .assertJSON("genre",        equals: self.initialShowGenre)
+                    .assertJSON("seasons",      equals: [seasons])
             }
         } catch {
             XCTFail("testGetOne failed with error: \(error)")
@@ -94,15 +97,15 @@ class ShowControllerTests: TVTestCase {
                 showRequest.json = showData
                 showRequest.cookies.insert(sessionCookie!)
                 
-                //TODO: Add test for release date
                 try drop
                     .respond(to: showRequest, through: middleWare)
                     .assertStatus(is: .ok)
-                    .assertJSON("id",          equals: self.showId)
-                    .assertJSON("title",       equals: self.secondTitle)
-                    .assertJSON("description", equals: self.secondDescription)
-                    .assertJSON("age_rating",  equals: self.secondAgeRating)
-                    .assertJSON("genre",       equals: self.secondGenre)
+                    .assertJSON("id",           equals: self.showId)
+                    .assertJSON("title",        equals: self.secondTitle)
+                    .assertJSON("description",  equals: self.secondDescription)
+                    .assertJSON("release_date", equals: self.secondReleaseDate)
+                    .assertJSON("age_rating",   equals: self.secondAgeRating)
+                    .assertJSON("genre",        equals: self.secondGenre)
                 
             }
         } catch {

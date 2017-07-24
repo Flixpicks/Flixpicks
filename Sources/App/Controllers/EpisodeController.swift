@@ -47,7 +47,7 @@ final class EpisodeController {
           episode.release_date = release_date
         }
         try episode.save()
-        return Response(status: .ok)
+        return episode
     }
 
     func delete(request: Request, episode: Episode) throws -> ResponseRepresentable {

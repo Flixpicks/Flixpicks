@@ -51,8 +51,8 @@ class UserControllerTests: TestCase {
     
     func testRegister() throws {
         var json = JSON()
-        try json.set("name", self.registrationName)
-        try json.set("email", self.registrationEmail)
+        try json.set("name",     self.registrationName)
+        try json.set("email",    self.registrationEmail)
         try json.set("password", self.registrationPassword)
         
         try drop
@@ -70,7 +70,7 @@ class UserControllerTests: TestCase {
                 self.registerId = id
                 return true
             })
-            .assertJSON("name", equals: self.registrationName)
+            .assertJSON("name",  equals: self.registrationName)
             .assertJSON("email", equals: self.registrationEmail)
     }
     
@@ -87,8 +87,8 @@ class UserControllerTests: TestCase {
                           headers: headers,
                           body: nil)
             .assertStatus(is: .ok)
-            .assertJSON("id", equals: id)
-            .assertJSON("name", equals: username)
+            .assertJSON("id",    equals: id)
+            .assertJSON("name",  equals: username)
             .assertJSON("email", equals: email)
     }
     
@@ -97,8 +97,8 @@ class UserControllerTests: TestCase {
             .testResponse(to: .get,
                           at: "users/\(self.id)")
             .assertStatus(is: .ok)
-            .assertJSON("id", equals: self.id)
-            .assertJSON("name", equals: self.username)
+            .assertJSON("id",    equals: self.id)
+            .assertJSON("name",  equals: self.username)
             .assertJSON("email", equals: self.email)
     }
     
@@ -111,7 +111,7 @@ class UserControllerTests: TestCase {
     func testPatch() throws {
         // Change it
         var json = JSON()
-        try json.set("name", self.updatedName)
+        try json.set("name",  self.updatedName)
         try json.set("email", self.updatedEmail)
         
         try drop
@@ -139,8 +139,8 @@ class UserControllerTests: TestCase {
     func testDelete() throws {
         //Register
         var json = JSON()
-        try json.set("name", self.registrationName)
-        try json.set("email", self.registrationEmail)
+        try json.set("name",     self.registrationName)
+        try json.set("email",    self.registrationEmail)
         try json.set("password", self.registrationPassword)
         
         var regId = 0
@@ -160,7 +160,7 @@ class UserControllerTests: TestCase {
                 regId = id
                 return true
             })
-            .assertJSON("name", equals: self.registrationName)
+            .assertJSON("name",  equals: self.registrationName)
             .assertJSON("email", equals: self.registrationEmail)
         
         //Delete
@@ -177,10 +177,10 @@ extension UserControllerTests {
     /// See ./Tests/LinuxMain.swift for examples
     static let allTests = [
             ("testRegisterUser", testRegister),
-            ("testLoginUser", testLogin),
-            ("testGetOneUser", testGetOne),
-            ("testGetAllUsers", testGetAll),
-            ("testPatchUser", testPatch),
-            ("testDeleteUser", testDelete)
+            ("testLoginUser",    testLogin),
+            ("testGetOneUser",   testGetOne),
+            ("testGetAllUsers",  testGetAll),
+            ("testPatchUser",    testPatch),
+            ("testDeleteUser",   testDelete)
         ]
 }

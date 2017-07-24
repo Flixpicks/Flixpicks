@@ -43,7 +43,7 @@ final class SeasonController {
             season.release_date = release_date
         }
         try season.save()
-        return Response(status: .ok)
+        return season
     }
 
     func delete(request: Request, season: Season) throws -> ResponseRepresentable {

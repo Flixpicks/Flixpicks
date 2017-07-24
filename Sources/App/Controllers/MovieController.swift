@@ -47,7 +47,7 @@ final class MovieController {
           movie.genre = genre
         }
         try movie.save()
-        return Response(status: .ok)
+        return movie
     }
 
     func delete(request: Request, movie: Movie) throws -> ResponseRepresentable {

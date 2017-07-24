@@ -47,7 +47,7 @@ final class ShowController {
           show.genre = genre
         }
         try show.save()
-        return Response(status: .ok)
+        return show
     }
 
     func delete(request: Request, show: Show) throws -> ResponseRepresentable {
